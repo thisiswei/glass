@@ -17,6 +17,8 @@
 __author__ = 'alainv@google.com (Alain Vongsouvanh)'
 
 
+from datetime import datetime
+import json
 import io
 import jinja2
 import logging
@@ -122,6 +124,26 @@ class MainHandler(webapp2.RequestHandler):
     memcache.set(key=self.userid, value=message, time=5)
     self.redirect('/')
 
+  def _get_products(self):
+    """
+    @return: list(dict)
+    """
+    items = []
+    ll = self._get_last_location() or (-73.990452, 40.718167)
+    url = "http://stylrapp.com/api/v1.8/product/?start_idx=0&distance=1609&ll=%s,%s" % (ll[0], ll[1])
+    result = urlfetch.fetch(url, deadline=20)
+    obj = json.loads(result.content)
+    products = obj['data']['objects']
+    for product in products:
+      items.append({
+          'url': product['product_images'][0]['url'],
+          'price': product['price'],
+          'store': product['store']['name'],
+          'brand': product['brand']['name'],
+          })
+    return items
+
+
   def _insert_subscription(self):
     """Subscribe the app."""
     # self.userid is initialized in util.auth_required.
@@ -149,30 +171,26 @@ class MainHandler(webapp2.RequestHandler):
       longitude = location.get('longitude')
       latitude = location.get('latitude')
       return (longitude, latitude)
-    return (None, None)
+    return None
 
-  def _insert_helper(self, txt, url):
-    """Insert a timeline item."""
+  def _insert_product(self, product, bundle_id):
+    """
+    Insert a timeline item.
+
+    @param product: dict
+    @param bundle_id: str
+    """
     logging.info('Inserting timeline item')
     body = {
         'notification': {'level': 'DEFAULT'}
     }
-    if self.request.get('html') == 'on':
-      body['html'] = [self.request.get('message')]
-    else:
-      body['text'] = self.request.get('message')
+    template = jinja_environment.get_template('templates/product.html')
+    body['html'] = [
+        template.render(product)
+        ]
 
-    body['text'] = ("Yarrakus: %s" % txt)
-    body['bundleId'] = "234"
-    if url:
-      resp = urlfetch.fetch(url, deadline=20)
-      media = MediaIoBaseUpload(
-          io.BytesIO(resp.content), mimetype='image/jpeg', resumable=True)
-    else:
-      media = None
-
-    # self.mirror_service is initialized in util.auth_required.
-    self.mirror_service.timeline().insert(body=body, media_body=media).execute()
+    body['bundleId'] = bundle_id
+    self.mirror_service.timeline().insert(body=body).execute()
     return  'A timeline item has been inserted.'
 
   def _get_items(self):
@@ -180,8 +198,10 @@ class MainHandler(webapp2.RequestHandler):
     """
 
   def _insert_item(self):
-    self._insert_helper("1", "http://s7d9.scene7.com/is/image/bebe/rbb-215255-b_w-i1")
-    self._insert_helper("2", "http://armaniexchange.scene7.com/is/image/armaniexchange/1610.10945.8452.010.zd1?op_sharpen=1&iv=Qfyre1&wid=317&hei=487")
+    products = self._get_products()
+    bundle_id = "stylr_%s" % str(datetime.now())
+    for product in products[:3]:
+      self._insert_product(product, bundle_id)
 
   def _insert_item_with_action(self):
     """Insert a timeline item user can reply to."""
