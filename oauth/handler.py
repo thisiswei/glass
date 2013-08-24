@@ -29,10 +29,12 @@ from model import Credentials
 import util
 
 
-SCOPES = ('https://www.googleapis.com/auth/glass.timeline '
-          'https://www.googleapis.com/auth/glass.location '
-          'https://www.googleapis.com/auth/userinfo.profile')
-
+SCOPES = (
+    'https://www.googleapis.com/auth/glass.timeline ',
+    'https://www.googleapis.com/auth/glass.location ',
+    'https://www.googleapis.com/auth/userinfo.profile',
+    'https://www.googleapis.com/auth/userinfo.email',
+    )
 
 class OAuthBaseRequestHandler(webapp2.RequestHandler):
   """Base request handler for OAuth 2.0 flow."""
