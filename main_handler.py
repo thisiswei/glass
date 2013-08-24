@@ -140,7 +140,18 @@ class MainHandler(webapp2.RequestHandler):
     self.mirror_service.subscriptions().delete(id=collection).execute()
     return 'Application has been unsubscribed.'
 
-  def _insert_item(self):
+  def _get_last_location(self):
+    """
+    @return: LngLat
+    """
+    locations = self.mirror_service.locations().list().execute()
+    for location in locations.get('items', []):
+      longitude = location.get('longitude')
+      latitude = location.get('latitude')
+      return (longitude, latitude)
+    return (None, None)
+
+  def _insert_helper(self, txt, url):
     """Insert a timeline item."""
     logging.info('Inserting timeline item')
     body = {
@@ -151,11 +162,10 @@ class MainHandler(webapp2.RequestHandler):
     else:
       body['text'] = self.request.get('message')
 
-    media_link = self.request.get('imageUrl')
-    if media_link:
-      if media_link.startswith('/'):
-        media_link = util.get_full_url(self, media_link)
-      resp = urlfetch.fetch(media_link, deadline=20)
+    body['text'] = ("Yarrakus: %s" % txt)
+    body['bundleId'] = "234"
+    if url:
+      resp = urlfetch.fetch(url, deadline=20)
       media = MediaIoBaseUpload(
           io.BytesIO(resp.content), mimetype='image/jpeg', resumable=True)
     else:
@@ -164,6 +174,14 @@ class MainHandler(webapp2.RequestHandler):
     # self.mirror_service is initialized in util.auth_required.
     self.mirror_service.timeline().insert(body=body, media_body=media).execute()
     return  'A timeline item has been inserted.'
+
+  def _get_items(self):
+    """
+    """
+
+  def _insert_item(self):
+    self._insert_helper("1", "http://s7d9.scene7.com/is/image/bebe/rbb-215255-b_w-i1")
+    self._insert_helper("2", "http://armaniexchange.scene7.com/is/image/armaniexchange/1610.10945.8452.010.zd1?op_sharpen=1&iv=Qfyre1&wid=317&hei=487")
 
   def _insert_item_with_action(self):
     """Insert a timeline item user can reply to."""
