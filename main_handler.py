@@ -129,7 +129,8 @@ class MainHandler(webapp2.RequestHandler):
     @return: list(dict)
     """
     items = []
-    ll = self._get_last_location() or (-73.990452, 40.718167)
+    locations = self._get_last_locations(1)
+    ll = locations[0] if locations else (-73.990452, 40.718167)
     url = "http://stylrapp.com/api/v1.8/product/?start_idx=0&distance=1609&ll=%s,%s" % (ll[0], ll[1])
     result = urlfetch.fetch(url, deadline=20)
     obj = json.loads(result.content)
@@ -140,6 +141,10 @@ class MainHandler(webapp2.RequestHandler):
           'price': product['price'],
           'store': product['store']['name'],
           'brand': product['brand']['name'],
+          'phone': product['store_location']['phone'],
+          'address': product['store_location']['address'],
+          'longitude': product['store_location']['longitude'],
+          'latitude': product['store_location']['latitude'],
           })
     return items
 
@@ -161,16 +166,20 @@ class MainHandler(webapp2.RequestHandler):
     self.mirror_service.subscriptions().delete(id=collection).execute()
     return 'Application has been unsubscribed.'
 
-  def _get_last_location(self):
+  def _get_last_locations(self, num):
     """
-    @return: LngLat
+    @return: list(LngLat)
     """
     locations = self.mirror_service.locations().list().execute()
-    for location in locations.get('items', []):
+    locations = locations.get('items', [])
+    to_return = []
+    for location in locations:
       longitude = location.get('longitude')
       latitude = location.get('latitude')
-      return (longitude, latitude)
-    return None
+      to_return.append((longitude, latitude))
+      if len(to_return) >= num:
+        return to_return[:num]
+    return to_return
 
   def _insert_product(self, product, bundle_id):
     """
@@ -189,7 +198,10 @@ class MainHandler(webapp2.RequestHandler):
         ]
 
     body['creator'] = {
-        'phoneNumber': '6503877186',
+        'phoneNumber': product['phone'],
+        'address': product['address'],
+        'longitude': product['longitude'],
+        'latitude': product['latitude'],
         }
     body['bundleId'] = bundle_id
     body['menuItems'] = [

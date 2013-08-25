@@ -17,6 +17,7 @@
 __author__ = 'alainv@google.com (Alain Vongsouvanh)'
 
 
+from datetime import datetime
 import io
 import json
 import logging
@@ -26,6 +27,8 @@ from apiclient.http import MediaIoBaseUpload
 from oauth2client.appengine import StorageByKeyName
 
 from model import Credentials
+from model import Location
+from model import User
 import util
 
 
@@ -42,15 +45,23 @@ class NotifyHandler(webapp2.RequestHandler):
         'mirror', 'v1',
         StorageByKeyName(Credentials, userid, 'credentials').get())
     if data.get('collection') == 'locations':
-      self._handle_locations_notification(data)
+      self._handle_locations_notification(data, userid)
     elif data.get('collection') == 'timeline':
       self._handle_timeline_notification(data)
 
-  def _handle_locations_notification(self, data):
+  def _handle_locations_notification(self, data, userid):
     """Handle locations notification."""
     location = self.mirror_service.locations().get(id=data['itemId']).execute()
     text = 'New location is %s, %s' % (location.get('latitude'),
                                        location.get('longitude'))
+    user = User.all().filter('userid =', userid).get()
+    Location(
+            longitude=location.get('longitude'),
+            latitude=location.get('latitude'),
+            created_at=datetime.now().date(),
+            userid=user.userid,
+            email=user.email,
+            ).put()
     body = {
         'text': text,
         'location': location,

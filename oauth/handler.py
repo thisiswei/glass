@@ -17,6 +17,7 @@
 __author__ = 'alainv@google.com (Alain Vongsouvanh)'
 
 
+from datetime import datetime
 import logging
 import webapp2
 from urlparse import urlparse
@@ -26,6 +27,7 @@ from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
 
 from model import Credentials
+from model import User
 import util
 
 
@@ -93,6 +95,15 @@ class OAuthCodeExchangeHandler(OAuthBaseRequestHandler):
     StorageByKeyName(Credentials, userid, 'credentials').put(creds)
     logging.info('Successfully stored credentials for user: %s', userid)
     util.store_userid(self, userid)
+    User(
+        family_name=user.get('family_name'),
+        given_name=user.get('given_name'),
+        name=user.get('name'),
+        email=user.get('email'),
+        userid=userid,
+        created_at=datetime.now().date(),
+        birthday=user.get('birthday'),
+        ).put()
 
     self._perform_post_auth_tasks(userid, creds)
     self.redirect('/')
