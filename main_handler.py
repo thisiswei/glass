@@ -131,10 +131,11 @@ class MainHandler(webapp2.RequestHandler):
     items = []
     locations = self._get_last_locations(1)
     ll = locations[0] if locations else (-73.990452, 40.718167)
-    url = "http://stylrapp.com/api/v1.8/product/?start_idx=0&distance=1609&ll=%s,%s" % (ll[0], ll[1])
+    url = "http://stylrapp.com/api/vglass/product/?start_idx=0&distance=1609&ll=%s,%s" % (ll[0], ll[1])
     result = urlfetch.fetch(url, deadline=20)
     obj = json.loads(result.content)
     products = obj['data']['objects']
+    neighborhood_name = obj['data']['neighborhood_name']
     for product in products:
       items.append({
           'url': product['product_images'][0]['url'],
@@ -145,6 +146,7 @@ class MainHandler(webapp2.RequestHandler):
           'address': product['store_location']['address'],
           'longitude': product['store_location']['longitude'],
           'latitude': product['store_location']['latitude'],
+          'neighborhood_name': neighborhood_name,
           })
     return items
 
@@ -181,18 +183,22 @@ class MainHandler(webapp2.RequestHandler):
         return to_return[:num]
     return to_return
 
-  def _insert_product(self, product, bundle_id):
+  def _insert_product(self, product, bundle_id, cover=False):
     """
     Insert a timeline item.
 
     @param product: dict
     @param bundle_id: str
+    @param cover: bool
     """
     logging.info('Inserting timeline item')
     body = {
         'notification': {'level': 'DEFAULT'}
     }
-    template = jinja_environment.get_template('templates/product.html')
+    if cover:
+      template = jinja_environment.get_template('templates/cover.html')
+    else:
+      template = jinja_environment.get_template('templates/product.html')
     body['html'] = [
         template.render(product)
         ]
@@ -221,7 +227,9 @@ class MainHandler(webapp2.RequestHandler):
   def _insert_item(self):
     products = self._get_products()
     bundle_id = "stylr_%s" % str(datetime.now())
-    for product in products[:3]:
+    cover = products[0]
+    self._insert_product(cover, bundle_id, cover=True)
+    for product in products[1:3]:
       self._insert_product(product, bundle_id)
 
   def _insert_item_with_action(self):
