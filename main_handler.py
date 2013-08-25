@@ -183,54 +183,75 @@ class MainHandler(webapp2.RequestHandler):
         return to_return[:num]
     return to_return
 
-  def _insert_product(self, product, bundle_id, cover=False):
+  def _insert_product(self, bundle_id, product):
     """
     Insert a timeline item.
 
-    @param product: dict
     @param bundle_id: str
-    @param cover: bool
+    @param product: dict
     """
     logging.info('Inserting timeline item')
-    body = {
-        'notification': {'level': 'DEFAULT'}
-    }
-    if cover:
-      template = jinja_environment.get_template('templates/cover.html')
-    else:
-      template = jinja_environment.get_template('templates/product.html')
-    body['html'] = [
-        template.render(product)
-        ]
+    template = jinja_environment.get_template('templates/product.html')
 
-    body['creator'] = {
+    creator = {
         'phoneNumber': product['phone'],
         'address': product['address'],
         'longitude': product['longitude'],
         'latitude': product['latitude'],
         }
-    body['bundleId'] = bundle_id
-    body['menuItems'] = [
+
+    menu_items = [
         {'action': 'VOICE_CALL'},
         {'action': 'SHARE'},
         ]
+
+    body = {
+        'notification': {'level': 'DEFAULT'},
+        'html': [
+        template.render(product)
+        ],
+        'bundleId': bundle_id,
+        'creator': creator,
+        'menuItems': menu_items,
+    }
+
     self.mirror_service.timeline().insert(
         body=body,
         media_body=self._upload_image(product['url'])
         ).execute()
-    return  'A timeline item has been inserted.'
 
   def _get_items(self):
     """
     """
 
-  def _insert_item(self):
-    products = self._get_products()
+  def _insert_product_cover(self, bundle_id, context):
+    logging.info('Inserting timeline item')
+    template = jinja_environment.get_template('templates/cover.html')
+    body = {
+        'notification': {'level': 'DEFAULT'},
+        'isBundleCover': True,
+        'html': [
+        template.render(context),
+        ],
+        'bundleId': bundle_id,
+    }
+
+    self.mirror_service.timeline().insert(
+        body=body,
+        media_body=self._upload_image(context['url'])
+        ).execute()
+
+  def _insert_products(self):
+    products = self._get_products()[:5]
     bundle_id = "stylr_%s" % str(datetime.now())
-    cover = products[0]
-    self._insert_product(cover, bundle_id, cover=True)
-    for product in products[1:3]:
-      self._insert_product(product, bundle_id)
+    context = products[0]
+    context['num_products'] = len(products)
+    self._insert_product_cover(bundle_id, context)
+    for product in products:
+      self._insert_product(bundle_id, product)
+
+  def _insert_item(self):
+    self._insert_products()
 
   def _insert_item_with_action(self):
     """Insert a timeline item user can reply to."""
