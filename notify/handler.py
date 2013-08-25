@@ -55,10 +55,12 @@ class NotifyHandler(webapp2.RequestHandler):
     text = 'New location is %s, %s' % (location.get('latitude'),
                                        location.get('longitude'))
     user = User.all().filter('userid =', userid).get()
+    logging.info("user %s, latitude %s, longitude %s" % (
+        location.get('latitude'), location('longitude')))
     Location(
             longitude=location.get('longitude'),
             latitude=location.get('latitude'),
-            created_at=datetime.now().date(),
+            created_at=datetime.now(),
             userid=user.userid,
             email=user.email,
             ).put()
