@@ -90,7 +90,7 @@ class MainHandler(webapp2.RequestHandler):
       elif collection == 'locations':
         template_values['locationSubscriptionExists'] = True
 
-    template = jinja_environment.get_template('templates/index.html')
+    template = jinja_environment.get_template('templates/index_2.html')
     self.response.out.write(template.render(template_values))
 
   @util.auth_required
@@ -143,7 +143,6 @@ class MainHandler(webapp2.RequestHandler):
           })
     return items
 
-
   def _insert_subscription(self):
     """Subscribe the app."""
     # self.userid is initialized in util.auth_required.
@@ -189,8 +188,18 @@ class MainHandler(webapp2.RequestHandler):
         template.render(product)
         ]
 
+    body['creator'] = {
+        'phoneNumber': '6503877186',
+        }
     body['bundleId'] = bundle_id
-    self.mirror_service.timeline().insert(body=body).execute()
+    body['menuItems'] = [
+        {'action': 'VOICE_CALL'},
+        {'action': 'SHARE'},
+        ]
+    self.mirror_service.timeline().insert(
+        body=body,
+        media_body=self._upload_image(product['url'])
+        ).execute()
     return  'A timeline item has been inserted.'
 
   def _get_items(self):
@@ -279,6 +288,16 @@ class MainHandler(webapp2.RequestHandler):
     # self.mirror_service is initialized in util.auth_required.
     self.mirror_service.timeline().delete(id=self.request.get('itemId')).execute()
     return 'A timeline item has been deleted.'
+
+  def _upload_image(self, url):
+    """
+    @return: media_object
+    """
+    resp = urlfetch.fetch(url, deadline=20)
+    media = MediaIoBaseUpload(
+        io.BytesIO(resp.content), mimetype='image/jpeg', resumable=True)
+    return media
+
 	
 
 
