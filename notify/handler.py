@@ -56,7 +56,7 @@ class NotifyHandler(webapp2.RequestHandler):
                                        location.get('longitude'))
     user = User.all().filter('userid =', userid).get()
     logging.info("user %s, latitude %s, longitude %s" %
-            (userid, location.get('latitude'), location('longitude')))
+            (userid, location.get('latitude'), location.get('longitude')))
     Location(
             longitude=location.get('longitude'),
             latitude=location.get('latitude'),
