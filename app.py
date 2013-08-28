@@ -52,6 +52,7 @@ class GlassApp(object):
                 'address': product['store_location']['address'],
                 'longitude': product['store_location']['longitude'],
                 'latitude': product['store_location']['latitude'],
+                'distance': product['store_location']['distance'],
                 'neighborhood_name': neighborhood_name,
                 })
         return items
