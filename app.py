@@ -37,7 +37,9 @@ class GlassApp(object):
         items = []
         locations = self._get_last_locations(1)
         ll = locations[0] if locations else (-73.990452, 40.718167)
-        url = "http://stylrapp.com/api/vglass/product/?start_idx=0&distance=1609&ll=%s,%s" % (ll[0], ll[1])
+        import random;
+        start_idx = random.choice(range(0, 100, 20))
+        url = "http://stylrapp.com/api/vglass/product/?start_idx=0&distance=1609&ll=%s,%s&start_idx=%s" % (ll[0], ll[1], start_idx)
         result = urlfetch.fetch(url, deadline=20)
         obj = json.loads(result.content)
         products = obj['data']['objects']
