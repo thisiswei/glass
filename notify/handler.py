@@ -18,14 +18,13 @@ __author__ = 'alainv@google.com (Alain Vongsouvanh)'
 
 
 from datetime import datetime
-import io
 import json
 import logging
 import webapp2
 
-from apiclient.http import MediaIoBaseUpload
 from oauth2client.appengine import StorageByKeyName
 
+from app import GlassApp
 from model import Credentials
 from model import Location
 from model import User
@@ -64,13 +63,7 @@ class NotifyHandler(webapp2.RequestHandler):
             userid=user.userid,
             email=user.email,
             ).put()
-    body = {
-        'text': text,
-        'location': location,
-        'menuItems': [{'action': 'NAVIGATE'}],
-        'notification': {'level': 'DEFAULT'}
-    }
-    self.mirror_service.timeline().insert(body=body).execute()
+    GlassApp(self.mirror_service).insert_products()
 
   def _handle_timeline_notification(self, data):
     """Handle timeline notification."""
