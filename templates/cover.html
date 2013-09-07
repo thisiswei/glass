@@ -1,11 +1,39 @@
+<style type="text/css">
+  #count
+  {
+  margin: 0 40px 80px 270px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 55px;
+
+  color:rgb(0,204,153)
+  }
+  .separator
+  {
+  margin: 0 40px 160px 270px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  }
+  .logo
+  {
+  position: absolute;
+  right: 40px;
+  bottom: 105px;
+  }
+</style>
 <article style="left: 0px; visibility: visible;">
   <figure style="background-image: url({{ url }}); background-size: cover; background-position:center">
   </figure>
   <section>
     <h1 class="text-large">Welcome to</h1>
     <p class="text-x-small">{{ neighborhood_name }}</p>
-    <hr>
-    <p class="text-x-large">{{ num_products }}</p>
-    <div><p class="text-minor">trending items</p></div>
   </section>
+  <div class="separator"><hr></div>
+  <div class="logo"><img src="https://s3.amazonaws.com/stylr/stylr_glass_logo.png"/></div>
+  <div id="count"><p class="text-x-large">{{ num_products }}</p></div>
+  <footer><p>trending items</p></footer>
 </article>
