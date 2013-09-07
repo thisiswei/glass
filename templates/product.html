@@ -1,11 +1,39 @@
+<style type="text/css">
+  #price
+  {
+  margin: 0 40px 94px 270px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 55px;
+
+  color:rgb(0,204,153)
+  }
+  .separator
+  {
+  margin: 0 40px 160px 270px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  }
+  .logo
+  {
+  position: absolute;
+  right: 40px;
+  bottom: 110px;
+  }
+</style>
 <article>
   <figure style="background-image: url({{ url }}); background-size: cover; background-position:center">
   </figure>
   <section>
     <div style="white-space: nowrap;"><h1 class="text-large text-auto-size">{{ store }}</h1></div>
     <p class="text-x-small">{{ brand }}</p>
-    <hr>
-    <p class="text-x-large">${{ price }}</p>
-    <p class="text-minor">{{ distance }}</p>
   </section>
+  <div class="separator"><hr></div>
+  <div class="logo"><img src="https://s3.amazonaws.com/stylr/stylr_glass_logo.png"/></div>
+  <div id="price"><p class="text-large">${{ price }}</p></div>
+  <footer><p>{{ distance }}</p></footer>
 </article>
