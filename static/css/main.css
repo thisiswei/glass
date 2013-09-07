@@ -1,0 +1,330 @@
+html,
+button,
+input,
+select,
+textarea {
+    color: #000;
+}
+
+body {
+    font-size: 1em;
+    line-height: 1.4;
+}
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
+}
+
+img {
+    vertical-align: middle;
+}
+
+fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+textarea {
+    resize: vertical;
+}
+
+.chromeframe {
+    margin: 0.2em 0;
+    background: #ccc;
+    color: #000;
+    padding: 0.2em 0;
+}
+
+
+body {
+    font: 16px/24px 'Georgia W01 Regular', serif;
+}
+
+body.landing-page {
+    font: 18px/25px 'Georgia W01 Regular', serif;
+}
+
+.body-container {
+    margin: auto;
+    position: relative;
+}
+
+.header-container {
+    font-family: Arial;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+
+    margin-top: 39px;
+    padding-top: 157px;
+    background-image: url('https://www.elleforglass.com/static/elle-web/logo.png');
+    background-repeat: no-repeat;
+    background-position: 50% 0px;
+}
+
+.image-hero {
+	margin-top: 180px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    display: none;
+}
+
+/* ==============
+    MOBILE: Main
+   ============== */
+
+.main {
+    padding: 30px 5%;
+}
+
+.main article header {
+    border-bottom: 1px solid #d0d0d0;
+}
+
+.main article header h1 {
+    font-family: Arial;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    font-size: 1.65em;
+}
+
+.main article header p {
+    margin-top: -4px;
+    margin-bottom: 8px;
+}
+
+.main article section {
+    margin-top: 21px;
+    float: left;
+}
+
+.main article section h2{
+    width: 400px;
+}
+
+.main article section label {
+    cursor: pointer;
+}
+
+.main article section label p {
+    margin-top: 4px;
+    margin-left: 30px;
+}
+
+.main article section select {
+    margin-top: 4px;
+    margin-left: 30px;
+}
+
+.main article section ul {
+    padding-left: 13px;
+    margin-top: -6px;
+}
+
+.main article section ul li {
+    list-style-image: url('../elle-web/arrow-gray.png');
+    cursor: pointer;
+}
+
+.main article section ul li:hover {
+    list-style-image: url('../elle-web/arrow-black.png');
+}
+
+.main article section button {
+    background-image: url('../elle-web/button-subscribe.png');
+    width: 120px;
+    height: 49px;
+    border: 0px;
+    margin-top: 25px;
+}
+.main article section button:hover {
+    background-image: url('../elle-web/button-subscribe-over.png');
+}
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+.main article section ul li .listItem:hover {
+    color: #003EFF;
+}
+
+.main article section ul li .deleteItem:hover {
+    color: #f20030;
+}
+
+
+
+/* ==========================================================================
+   Media Queries
+   ========================================================================== */
+
+@media only screen and (min-width: 480px) {
+
+    .main {
+        padding: 30px 0px;
+    }
+
+    .wrapper {
+        width: 100%;
+        margin: 0 5%;
+    }
+
+    .landing-page .wrapper {
+        width: inherit;
+        padding: 0px 5%;
+        margin: 0px;
+    }
+
+/* ============
+    INTERMEDIATE: Main
+   ============ */
+
+    .main-container {
+    	background-image: url('../elle-web/settings_background.png');
+        background-repeat: no-repeat;
+        background-position: 0 0;
+        padding-left: 307px;
+        padding-right: 10px;
+    }
+
+    .landing-page .main-container {
+    	background-image: url('../elle-web/settings_background.png');
+        background-repeat: no-repeat;
+        background-position: 0 0;
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .main article {
+        margin-bottom: 42px;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+
+    .body-container {
+        max-width: 1060px;
+    }
+
+    .image-hero {
+        display: block;
+    }
+
+/* ============
+    WIDE: Main
+   ============ */
+
+    .main article {
+        float: left;
+        width: 100%;
+    }
+
+    .landing-page .main-container {
+    	background-image: url('../elle-web/settings_background.png');
+        background-repeat: no-repeat;
+        background-position: 0 0;
+        padding-left: 450px;
+        min-height: 900px;
+    }
+}
+
+@media only screen and (min-width: 1140px) {
+
+/* ===============
+    Maximal Width
+   =============== */
+
+    .wrapper {
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .main article:first-child section {
+        max-width: 235px;
+    }
+
+    .main article:nth-child(2) {
+        width: 322px;
+    }
+
+    .main article:nth-child(3) {
+        width: 322px;
+        float: right;
+    }
+
+    .landing-page .main article section {
+        max-width: inherit;
+    }
+
+}
+
+/* ==========================================================================
+   Helper classes
+   ========================================================================== */
+
+.ir {
+    background-color: transparent;
+    border: 0;
+    overflow: hidden;
+    *text-indent: -9999px;
+}
+
+.ir:before {
+    content: "";
+    display: block;
+    width: 0;
+    height: 150%;
+}
+
+.hidden {
+    display: none !important;
+    visibility: hidden;
+}
+
+.visuallyhidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+.visuallyhidden.focusable:active,
+.visuallyhidden.focusable:focus {
+    clip: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    position: static;
+    width: auto;
+}
+
+.invisible {
+    visibility: hidden;
+}
+
+.clearfix:before,
+.clearfix:after {
+    content: " ";
+    display: table;
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+.clearfix {
+    *zoom: 1;
+}
