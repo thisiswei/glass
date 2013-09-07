@@ -60,7 +60,7 @@ class GlassApp(object):
         return items
 
     def insert_products(self):
-        products = self._get_products()[:5]
+        products = self._get_products()[:2]
         bundle_id = "stylr_%s" % str(datetime.now())
         context = products[0]
         context['num_products'] = len(products)
