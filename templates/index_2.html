@@ -1,68 +1,154 @@
-<!--
-Copyright (C) 2012 Google Inc.
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Stylr for Google Glass</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+        <link rel="stylesheet" href="../static/css/normalize.min.css">
+        <link rel="stylesheet" href="../static/css/main.css">
 
-http://www.apache.org/licenses/LICENSE-2.0
+        <script src="../static/js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+        <script src="../static/js/vendor/jquery-1.9.1.min.js"></script>
+    </head>
+    <body class="settings-page">
+        <div class="body-container">
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-<!doctype html>
-<html>
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stylr - Glassware</title>
-  <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet"
-        media="screen">
-  <link href="/static/bootstrap/css/bootstrap-responsive.min.css"
-        rel="stylesheet" media="screen">
-  <link href="/static/main.css" rel="stylesheet" media="screen">
-</head>
-<body>
-<div class="navbar navbar-inverse navbar-fixed-top">
-  <div class="navbar-inner">
-    <div class="container">
-      <a class="brand" href="#">Stylr</a>
+            <div class="header-container">Settings and Preferences</div>
 
-      <div class="nav-collapse collapse">
-        <form class="navbar-form pull-right" action="/signout" method="post">
-          <button type="submit" class="btn">Sign out</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
+            <img class="image-hero" src="static/elle-web/settings_hero.png" width="307" height="712" />
 
-<div class="container">
-  <div class="row">
-    <div class="span4">
-      <form action="/" method="post">
-        <input type="hidden" name="operation" value="insertItem">
-        <button class="btn btn-block" type="submit">
-          Start Exploring!
-        </button>
-      </form>
+            <div class="main-container">
+                <div class="main wrapper clearfix">
+                    <article class="clearfix">
+                        <header>
+                            <h1>Subscriptions</h1>
+                        </header>
+                        <section>
+                            <input type="checkbox" id="dispatch" checked />
+                            <label for="dispatch">
+                                <img src="static/elle-web/settings_elledispatch.png" width="196" height="33" />
+                                <p>The hottest fashion and culture news throughout the day from ELLE.com</p>
+                            </label>
+                        </section>
+                        <section>
+                            <input type="checkbox" id="stylerater" checked />
+                            <label for="stylerater">
+                                <img src="static/elle-web/settings_lookbook.png" width="215" height="33" />
+                                <p>The latest styles and trends, updated daily</p>
+                            </label>
+                        </section>
+                        <section>
+                            <input type="checkbox" id="streetchic" checked />
+                            <label for="streetchic">
+                                <img src="static/elle-web/settings_streetchic.png" width="196" height="33" />
+                                <p>Who's the best dressed? From art festivals to summer concerts to fashion week, we find the best street style from around the globe, send to you daily at 10am ET</p>
+                            </label>
+                        </section>
+                        <section>
+                            <input type="checkbox" id="horoscope" checked />
+                            <label for="horoscope">
+                                <img src="static/elle-web/settings_horoscope.png" width="215" height="33" />
+                                <p>The Astro Twins forecast your horoscope for the day. Find out if the moon's position presents any new opportunities, if today's the day to take a chance on love, or if you should question someone's motives. Sent to you every day at 9am ET</p>
+                            </label>
+                            <select id="horoscope_select" >
+                            	
+                            		
+                						
+                					
+  									<option value="Aries" selected>Aries</option>
+  								
+                            		
+                						
+                					
+  									<option value="Taurus" >Taurus</option>
+  								
+                            		
+                						
+                					
+  									<option value="Gemini" >Gemini</option>
+  								
+                            		
+                						
+                					
+  									<option value="Cancer" >Cancer</option>
+  								
+                            		
+                						
+                					
+  									<option value="Leo" >Leo</option>
+  								
+                            		
+                						
+                					
+  									<option value="Virgo" >Virgo</option>
+  								
+                            		
+                						
+                					
+  									<option value="Libra" >Libra</option>
+  								
+                            		
+                						
+                					
+  									<option value="Scorpio" >Scorpio</option>
+  								
+                            		
+                						
+                					
+  									<option value="Sagittarius" >Sagittarius</option>
+  								
+                            		
+                						
+                					
+  									<option value="Capricorn" >Capricorn</option>
+  								
+                            		
+                						
+                					
+  									<option value="Aquarius" >Aquarius</option>
+  								
+                            		
+                						
+                					
+  									<option value="Pisces" >Pisces</option>
+  								
+							</select> 
+                        </section>
+                    </article>
 
-      <form action="/" method="post">
-        <input type="hidden" name="operation" value="insertSubscription">
-        <input type="hidden" name="collection" value="locations">
-        <button class="btn btn-block btn-success" type="submit">
-          Subscribe to location updates
-        </button>
-      </form>
-    </div>
-    
-  </div>
-</div>
+                    <article class="clearfix">
+                        <header>
+                            <h1>My Reading List</h1>
+                            <p>Articles that you saved on Glass</p>
+                        </header>
+                        <section>
+                            <ul>	
+                            	
+                            </ul>
+                        </section>
+                    </article>
 
-<script
-    src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="/static/bootstrap/js/bootstrap.min.js"></script>
-</body>
+                    <article class="clearfix">
+                        <header>
+                            <h1>My Shopping Wishlist</h1>
+                            <p>Shoppable favorites that you saved on Glass</p>
+                        </header>
+                        <section>
+                            <ul>
+                            	
+                            </ul>
+                        </section>
+                    </article>
+
+                </div> <!-- #main -->
+            </div> <!-- #main-container -->
+        </div>
+        <script src="static/js/main.js"></script>
+    </body>
 </html>
