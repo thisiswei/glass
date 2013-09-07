@@ -56,6 +56,7 @@ class GlassApp(object):
                 'latitude': product['store_location']['latitude'],
                 'distance': product['store_location']['distance'],
                 'neighborhood_name': neighborhood_name,
+                'glamour': product.get('glamour'),
                 })
         return items
 
@@ -102,10 +103,21 @@ class GlassApp(object):
                 'latitude': product['latitude'],
                 }
 
+        location = {
+            'kind': 'mirror#location',
+            'longitude': product['longitude'],
+            'latitude': product['latitude'],
+            'displayName' :product['store'],
+            'id': product['phone'],
+            'accuracy': 10,
+            }
+
         menu_items = [
-                {'action': 'VOICE_CALL'},
-                {'action': 'SHARE'},
-                ]
+            {'action': 'NAVIGATE' },
+            {'action': 'VOICE_CALL'},
+            {'action': 'SHARE'},
+            {'action': 'READ_ALOUD'},
+            ]
 
         body = {
                 'notification': {'level': 'DEFAULT'},
@@ -114,8 +126,17 @@ class GlassApp(object):
                     ],
                 'bundleId': bundle_id,
                 'creator': creator,
+                'location': location,
                 'menuItems': menu_items,
                 }
+
+        glamour = product.get('glamour')
+        if glamour:
+            body['speakableText'] = glamour.get('text')
+            menu_items.append({
+                    'action': 'VIEW_WEBSITE',
+                    'payload': glamour.get('url')
+                    })
 
         self.mirror_service.timeline().insert(
                 body=body,
