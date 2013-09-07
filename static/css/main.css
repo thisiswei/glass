@@ -63,7 +63,7 @@ body.landing-page {
 
     margin-top: 39px;
     padding-top: 157px;
-    background-image: url('../elle-web/logo.png');
+    background-image: url('https://www.elleforglass.com/static/elle-web/logo.png');
     background-repeat: no-repeat;
     background-position: 50% 0px;
 }
@@ -104,6 +104,10 @@ body.landing-page {
 .main article section {
     margin-top: 21px;
     float: left;
+}
+
+.main article section h2{
+    width: 400px;
 }
 
 .main article section label {
