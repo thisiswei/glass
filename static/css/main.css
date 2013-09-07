@@ -55,24 +55,21 @@ body.landing-page {
     position: relative;
 }
 
-.header-container {
-    font-family: Arial;
-    font-weight: bold;
-    text-transform: uppercase;
-    text-align: center;
+.logo {
+  width: 200px;
+  margin: 0px auto;
+}
 
-    margin-top: 39px;
-    padding-top: 157px;
-    background-image: url('https://www.elleforglass.com/static/elle-web/logo.png');
-    background-repeat: no-repeat;
-    background-position: 50% 0px;
+.img-container {
+  text-align: center;
 }
 
 .image-hero {
-	margin-top: 180px;
+	margin-top: 250px;
     position: absolute;
     top: 0px;
     left: 0px;
+    margin-left: 65px;
     display: none;
 }
 
@@ -170,12 +167,11 @@ body.landing-page {
 @media only screen and (min-width: 480px) {
 
     .main {
-        padding: 30px 0px;
     }
 
     .wrapper {
         width: 100%;
-        margin: 0 5%;
+        margin: 0 20%;
     }
 
     .landing-page .wrapper {
@@ -245,11 +241,10 @@ body.landing-page {
 
     .wrapper {
         width: 100%;
-        margin: 0 auto;
+        margin: 0 20%;
     }
 
     .main article:first-child section {
-        max-width: 235px;
     }
 
     .main article:nth-child(2) {
@@ -327,4 +322,11 @@ body.landing-page {
 
 .clearfix {
     *zoom: 1;
+}
+
+input {
+    margin-top: 5px;
+}
+
+label {
 }
